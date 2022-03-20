@@ -1,0 +1,23 @@
+.notification-wrapper {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	transform: translate(10%, -50%);
+	padding: 4px;
+	display: flex;
+	flex-flow: row wrap;
+	gap: 5px;
+	background: -webkit-linear-gradient(left, #60c657 30%, #35aee2 60%);
+	border-radius: 4px;
+}
+
+.notification-body {
+	padding: 5px 10px;
+	background: #2a323c;
+	border-radius: 4px;
+}
+
+.notification-body p {
+	color: white;
+	font-weight: bold;
+}
