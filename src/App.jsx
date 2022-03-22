@@ -15,6 +15,8 @@ const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
 	const [isConnected, setIsConnected] = useState(false);
+	const [isNewMint, setIsNewMint] = useState(false);
+	const [newMintId, setNewMintId] = useState(0);
 	const [currentAccount, setCurrentAccount] = useState('');
 	const [notification, setNotification] = useState('');
 	const [totalMints, setTotalMints] = useState(0);
@@ -103,6 +105,11 @@ const App = () => {
 				const provider = new ethers.providers.Web3Provider(ethereum);
 				const signer = provider.getSigner();
 				const contractInstance = new ethers.Contract(CONTRACT_ADDRESS, MyEpicNFT, signer);
+				contractInstance.on("NewEpicNFTMinted", (sender, tokenId) => {
+					console.log({'from': sender, 'tokenId': tokenId});
+					setNewMintId(tokenId);
+					setIsNewMint(true);
+				})
 
 				console.log("Going to pop wallet now to pay gas...")
 
@@ -111,10 +118,7 @@ const App = () => {
 				await mintTxn.wait();
 				
 				console.log(`Minted successfuly, see transaction: https://rinkeby.etherscan.io/tx/${mintTxn.hash}`);
-				contractInstance.on("NewEpicNFTMinted", (from, tokenId) => {
-					console.log(from, tokenId.toNumber());
-					alert(`Hey there! We've minted your NFT. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: <https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}>`)
-				})
+				getTotalMintedNTFs();
 			}
 		} catch(e) {
 			console.log(e);
@@ -129,6 +133,21 @@ const App = () => {
       Connect to Wallet
     </button>
   );
+
+	const MintedMessage = ({ tokenId }) => (
+		<div
+			style={{display: 'block', maxWidth: '500px', background: '#0d1116', lineHeight: '28px', border: '1px solid #333', boxShadow: '7px 7px 1px #171b20', borderRadius: '8px', padding: '20px'}}>
+			<p className="gradient-text">
+				Hey there! We've minted your NFT. It may be blank right now. It can take a max of 10 min to show up on OpenSea.<br />
+			</p>
+			<a
+				href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId}`}
+				target="_blank"
+				rel="nofollow noopener">
+				<b className="cta-button opensea-button">🌊 Here's the link</b>
+			</a>
+		</div>
+	)
 
 
 	useEffect(() => {
@@ -156,10 +175,15 @@ const App = () => {
 						{currentAccount.slice(0, 4)}...{currentAccount.slice(39, 43)}
 					</b>
 				</p>
-				<button onClick={askContractToMintNFT} className="cta-button connect-wallet-button">
+				<button
+					onClick={askContractToMintNFT}
+					className="cta-button mint-button">
               		Mint NFT
             	</button>
-				<span className="gradient-text">Total minted EpicNFTs: {totalMints}/{TOTAL_MINT_COUNT}</span>
+				<span className="gradient-text">
+					Total minted EpicNFTs: {totalMints}/{TOTAL_MINT_COUNT}
+				</span>
+				{isNewMint && <MintedMessage tokenId={newMintId} />}
 			</div>}
         </div>
         <div className="footer-container">

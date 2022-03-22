@@ -1,13 +1,45 @@
-## Running React on Repl.it
+## Starter NFT minting page
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+Built using [React](https://reactjs.org/) & [Vite](https://vitejs.dev/).
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+```
+-- starter-nft-contract
+	|
+	|--- src
+	|	 |
+	|	 |--- assets   # ABI and other assets
+	|	 |--- components   # react components
+	|	 |--- styles   # css styles
+	|	 |--- App.jsx   # main react app
+	|
+	|--- vite.config.js   # vite configuration
+```
+See live demo:
+> https://nft-starter-project.mjtbkh.repl.co/
 
-Using the two in conjunction is one of the fastest ways to build a web app.
+You need [MetaMask](https://metamask.io/download/) installed on your browser and some [rinkeby-ETH](https://faucets.chain.link/rinkeby) to mint your own EpicNFT.
 
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
+EpicNFT ERC721 smart-contracts repo:
+> https://github.com/mjtbkh/starter-nft-contract/
 
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the `.replit` file.
+EpicNFT ERC721 smart-contract address on rinkeby:
+> 0xd8A07E7608E805f7A395B8bb9f4c6E2D5AA53c9D
+
+---
+To run an instance of this client:
+
+```bash
+git clone https://github.com/mjtbkh/starter-nft-mint-page.git
+cd starter-nft-mint-page
+npm install
+
+# spin-up a development version
+npm run dev
+
+# build and deploy
+npm run build && npm run serve
+```
+
+---
+
+This application is developed and deployed using [Replit](https://replite.com/~)
